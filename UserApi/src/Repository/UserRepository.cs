@@ -36,20 +36,21 @@ namespace UserApi.src.Repository
             {
                 users = users.Where(p => p.Gender.ToLower() == gender.ToLower());
             }
-
-            if(sort.ToLower() == "asc")
+            if (!string.IsNullOrEmpty(sort))
             {
-                return await users.OrderBy(p => p.Name).ToListAsync();
+                if(sort.ToLower() == "asc")
+                {
+                    return await users.OrderBy(p => p.Name).ToListAsync();
+                }
+                else if(sort.ToLower() == "desc")
+                {
+                    return await users.OrderByDescending(p => p.Name).ToListAsync();
+                }
             }
-            else if(sort.ToLower() == "desc")
-            {
-                return await users.OrderByDescending(p => p.Name).ToListAsync();
-            }
-
             return await users.ToListAsync();
         }
 
-        public async Task<User> UpdateUser(int id, CreateUserDto updatedUserDto)
+        public async Task<bool> UpdateUser(int id, CreateUserDto updatedUserDto)
         {
             var updatedUser = updatedUserDto.ToUser();
             var existingUser = await _context.Users.FindAsync(id);
@@ -60,9 +61,11 @@ namespace UserApi.src.Repository
                 existingUser.Email = updatedUser.Email;
                 existingUser.Gender = updatedUser.Gender;
                 existingUser.BirthDate = updatedUser.BirthDate;
+                await _context.SaveChangesAsync();
+                return true;
             }
-            await _context.SaveChangesAsync();
-            return updatedUser;
+            
+            return false;
         }
 
         public async Task<bool> DeleteUser(int id)

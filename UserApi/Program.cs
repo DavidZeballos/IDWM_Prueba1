@@ -17,6 +17,14 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var context = serviceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+    UserSeeder.Initialize(serviceProvider);
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

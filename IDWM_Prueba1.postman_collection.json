@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "0ee75552-bcf1-475c-895f-a6b4a3d6407b",
+		"name": "IDWM_Prueba1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27148180"
+	},
+	"item": [
+		{
+			"name": "GetAllUsers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5039/api/user?sort=desc&gender=masculino",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5039",
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "desc"
+						},
+						{
+							"key": "gender",
+							"value": "masculino"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5039/api/user/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5039",
+					"path": [
+						"api",
+						"user",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"rut\": \"12345678-9\",\r\n  \"name\": \"Juan Pérez\",\r\n  \"email\": \"juan.perez@example.com\",\r\n  \"gender\": \"masculino\",\r\n  \"birthDate\": \"1990-05-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5039/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5039",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5039/api/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5039",
+					"path": [
+						"api",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

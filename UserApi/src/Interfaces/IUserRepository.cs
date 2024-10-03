@@ -11,7 +11,7 @@ namespace UserApi.src.Interfaces
     {
         Task<User> CreateUser(CreateUserDto userDto);
         Task<List<User>> GetAllUsers(string? sort, string? gender);
-        Task<User> UpdateUser(int id, CreateUserDto updatedUserDto);
+        Task<bool> UpdateUser(int id, CreateUserDto updatedUserDto);
         Task<bool> DeleteUser(int id);
         Task<User?> GetUserByRUT(string rut);
     }

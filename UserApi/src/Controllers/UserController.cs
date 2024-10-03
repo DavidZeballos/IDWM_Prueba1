@@ -23,7 +23,7 @@ namespace UserApi.src.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto userDto)
         {
-            if(!ModelState.IsValid || (userDto.BirthDate<DateTime.Now))
+            if(!ModelState.IsValid || (userDto.BirthDate>=DateTime.Now))
             {
                 return BadRequest("Alguna validación no fue cumplida.");
             }
@@ -46,16 +46,16 @@ namespace UserApi.src.Controllers
                 var validCategories = new[] { "asc", "desc"};
                 if(!validCategories.Contains(sort))
                 {
-                    return BadRequest("Filtro sort inválido");
+                    return BadRequest("Filtro de orden inválido");
                 }
             }
 
             if(!string.IsNullOrEmpty(gender))
             {
                 var validCategories = new[] { "masculino", "femenino", "otro", "prefiero no decirlo"};
-                if(!validCategories.Contains(sort))
+                if(!validCategories.Contains(gender))
                 {
-                    return BadRequest("Filtro sort inválido");
+                    return BadRequest("Filtro por género inválido");
                 }
             }
 
@@ -63,14 +63,24 @@ namespace UserApi.src.Controllers
             return Ok(userList);
         }
 
-        [HttpPut]
-
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] updatedUser)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] CreateUserDto updatedUserDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("Alguna validación no fue cumplida.");
+            }
             
+            var result = await _userRepository.UpdateUser(id, updatedUserDto);
+            if(result)
+            {
+                return Ok("Usuario actualizado exitosamente");
+            }
+
+            return NotFound("Usuario no encontrado.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var result = await _userRepository.DeleteUser(id);
